@@ -2,7 +2,11 @@ package org.launchcode.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.util.ArrayList;
 
 
@@ -50,6 +54,15 @@ public class SpaDayController {
     @PostMapping(value="")
     public String spaMenu(@RequestParam String name, @RequestParam String skintype, @RequestParam String manipedi, Model model) {
 
+        // model binding
+        // With the .addAttribute() method, it requires 2 parameters.
+        // First is the attribute name - this is what is referenced on a ThymeLeaf template.
+        // Second is the object you are tying to the attribute to be rendered.
+        // In these cased, we are rendering a string in a <p> tag
+        model.addAttribute("name", name);
+        model.addAttribute("skintype", skintype);
+        model.addAttribute("manipedi", manipedi);
+
         ArrayList<String> facials = new ArrayList<>();
         facials.add("Microdermabrasion");
         facials.add("Hydrofacial");
@@ -62,6 +75,12 @@ public class SpaDayController {
                 appropriateFacials.add(facials.get(i));
             }
         }
+
+        // model binding
+        // With this model binding example, we are passing an Arraylist to our template and calling it "appropriatefacials".
+        // NOTE: Your attribute name doesn't have to the same as the object, but if it's being called on your template, it must have the same name as your "Attribute Name" parameter.
+        model.addAttribute("appropriatefacials", appropriateFacials);
+
 
         return "menu";
     }
